@@ -1,0 +1,30 @@
+### IDE ###
+.idea/
+.vscode/
+*.swp
+
+### SYSTEM ###
+.DS_Store
+Thumbs.db
+
+### PROJECT ARTIFACTS ###
+build/
+*.o
+*.obj
+*.d
+*.gch
+*.pch
+
+### LIBRARIES & EXECUTABLES ###
+*.a
+*.lib
+*.so
+*.dll
+*.dylib
+*.exe
+*.out
+
+### LOGS & TEMP ###
+*.log
+*.tmp
+*.bak
