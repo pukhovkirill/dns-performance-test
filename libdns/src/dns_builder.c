@@ -129,11 +129,10 @@ static size_t question_size(const dns_question_t *sec)
     sz += sizeof(sec->qtype);
     sz += sizeof(sec->qclass);
 
-    // +2 due to the label from beginning and
-    // end of the `qname` field
-    sz += 2;
+    // +1 for the length label at the beginning
+    sz += 1;
 
-    assert(sz >= 2);
+    assert(sz >= 1);
 
     return sz;
 }
@@ -183,9 +182,8 @@ ssize_t write_raw_question(uint8_t *dst, const size_t dst_sz, const dns_question
     }
     dst[write_bytes++] = 0;
 
-    len = sizeof(qst->qtype) + sizeof(qst->qclass);
-    memcpy(dst + write_bytes, &qst->qtype, len);
-    write_bytes += len;
+    write_bytes += dns_write_u16(dst + write_bytes, qst->qtype);
+    write_bytes += dns_write_u16(dst + write_bytes, qst->qclass);
 
     assert((size_t)write_bytes == total_len);
     return write_bytes;
