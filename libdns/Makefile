@@ -8,6 +8,7 @@ BUILD_DIR := ../build/libdns
 SRC_DIRS  := src
 INC_DIRS  := include
 TEST_DIRS := tests
+COV_DIR   := $(BUILD_DIR)/coverage_reports
 
 # Include-What-You-Use settings
 IWYU       := include-what-you-use
@@ -33,6 +34,11 @@ INC_FLAGS := -I$(INC_DIRS)
 CPPFLAGS  := $(INC_FLAGS) -MMD -MP
 CFLAGS    := -Wall -Wextra -O2 -std=c99
 
+ifdef COVERAGE_ENABLE
+  CFLAGS := -Wall -Wextra -O0 -std=c99 --coverage
+  LDFLAGS += --coverage
+endif
+
 # The default target MUST include both the library and tests so CLion indexes all files
 .PHONY: all
 all: $(BUILD_DIR)/$(TARGET_LIB) $(TEST_OBJS)
@@ -45,7 +51,7 @@ $(BUILD_DIR)/$(TARGET_LIB): $(OBJS)
 # Rule to link the test executable against the newly built static library
 $(BUILD_DIR)/$(TEST_EXEC): $(TEST_OBJS) $(BUILD_DIR)/$(TARGET_LIB)
 	@mkdir -p $(dir $@)
-	$(CC) $(TEST_OBJS) -L$(BUILD_DIR) -ldns -o $@
+	$(CC) $(TEST_OBJS) -L$(BUILD_DIR) -ldns $(LDFLAGS) -o $@
 
 # Pattern rule to compile source files from the src directory
 $(BUILD_DIR)/src/%.o: $(SRC_DIRS)/%.c
@@ -62,6 +68,17 @@ $(BUILD_DIR)/tests/%.o: $(TEST_DIRS)/%.c
 .PHONY: test
 test: $(BUILD_DIR)/$(TEST_EXEC)
 	@$(BUILD_DIR)/$(TEST_EXEC)
+
+# Target to generate the gcov reports
+.PHONY: coverage
+coverage:
+	@$(MAKE) clean
+	@$(MAKE) test COVERAGE_ENABLE=1
+	@echo "--- Generating gcov reports for libdns ---"
+	mkdir -p $(COV_DIR)
+	lcov --capture --directory $(BUILD_DIR) --output-file $(COV_DIR)/coverage.info
+	genhtml $(COV_DIR)/coverage.info --output-directory $(COV_DIR)/html
+	@echo "Coverage reports ready in $(COV_DIR)/html/index.html"
 
 # Target to clean up all build artifacts for this module
 .PHONY: clean

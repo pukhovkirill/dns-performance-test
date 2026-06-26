@@ -3,7 +3,7 @@
 MODULES := libdns
 
 # Declare phony targets to prevent conflicts with files of the same name
-.PHONY: all clean test $(MODULES)
+.PHONY: all clean test coverage $(MODULES)
 
 # Default target: Builds all specified modules sequentially
 all: $(MODULES)
@@ -16,6 +16,10 @@ $(MODULES):
 %_test:
 	$(MAKE) -C $* test
 
+# Pattern rule to run coverage for a specific module
+%_coverage:
+	$(MAKE) -C $* coverage
+
 # Target to clean up build artifacts across all subdirectories
 clean:
 	for dir in $(MODULES); do \
@@ -26,4 +30,10 @@ clean:
 test:
 	for dir in $(MODULES); do \
 		$(MAKE) -C $$dir test; \
+	done
+
+# Target to generate ALL coverage reports across all subdirectories sequentially
+coverage:
+	for dir in $(MODULES); do \
+		$(MAKE) -C $$dir coverage; \
 	done
