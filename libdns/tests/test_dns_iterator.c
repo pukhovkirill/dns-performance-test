@@ -1,6 +1,5 @@
 // test_dns_iterator.c
 #include "dns_iterator.h"
-
 #include <assert.h>
 #include <stdint.h>
 #include <stdio.h>
