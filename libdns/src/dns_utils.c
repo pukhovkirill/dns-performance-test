@@ -1,7 +1,7 @@
 // dns_utils.c
 #include "dns_utils.h"
+#include <arpa/inet.h>
 #include <string.h>
-#include <netinet/in.h>
 
 typedef struct {
     const char *name;

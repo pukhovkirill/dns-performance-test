@@ -2,6 +2,8 @@
 #ifndef DNS_UTILS_H
 #define DNS_UTILS_H
 
+#include <stddef.h>
+#include <stdint.h>
 #include "dns_packet.h"
 
 /**

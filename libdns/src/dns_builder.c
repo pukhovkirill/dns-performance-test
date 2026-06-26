@@ -1,13 +1,13 @@
 // dns_builder.c
 #include "dns_builder.h"
-#include "dns_packet.h"
-#include "dns_utils.h"
-#include <time.h>
-#include <stdlib.h>
 #include <assert.h>
+#include <stdbool.h>
+#include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
-#include <arpa/inet.h>
+#include <time.h>
+#include "dns_packet.h"
+#include "dns_utils.h"
 
 static uint16_t gen_id();
 static ssize_t  write_raw_hdr(uint8_t *dst, size_t dst_sz, const dns_hdr_t *hdr);

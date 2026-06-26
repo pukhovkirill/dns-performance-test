@@ -2,8 +2,8 @@
 #ifndef DNS_ITERATOR_H
 #define DNS_ITERATOR_H
 
+#include <stddef.h>
 #include <stdint.h>
-#include <sys/types.h>
 
 /**
  * @brief Metadata representation of a single DNS query entry.

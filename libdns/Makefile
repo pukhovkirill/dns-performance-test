@@ -4,10 +4,14 @@ TARGET_LIB := libdns.a
 TEST_EXEC  := libdns_run_tests
 
 # Directory definitions
-BUILD_DIR  := ../build/libdns
-SRC_DIRS   := src
-INC_DIRS   := include
-TEST_DIRS  := tests
+BUILD_DIR := ../build/libdns
+SRC_DIRS  := src
+INC_DIRS  := include
+TEST_DIRS := tests
+
+# Include-What-You-Use settings
+IWYU       := include-what-you-use
+IWYUFLAGS  :=
 
 # Archiver settings for creating the static library
 AR      := ar
@@ -46,6 +50,7 @@ $(BUILD_DIR)/$(TEST_EXEC): $(TEST_OBJS) $(BUILD_DIR)/$(TARGET_LIB)
 # Pattern rule to compile source files from the src directory
 $(BUILD_DIR)/src/%.o: $(SRC_DIRS)/%.c
 	@mkdir -p $(dir $@)
+	-$(IWYU) $(IWYUFLAGS) $(CPPFLAGS) $(CFLAGS) $< 2>&1
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
 # Pattern rule to compile test files from the tests directory

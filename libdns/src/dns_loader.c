@@ -1,13 +1,15 @@
 // dns_loader.c
 #include "dns_loader.h"
-#include "dns_builder.h"
-#include "dns_iterator.h"
-#include "dns_utils.h"
 #include <assert.h>
-#include <stdlib.h>
+#include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
+#include "dns_builder.h"
+#include "dns_iterator.h"
+#include "dns_packet.h"
+#include "dns_utils.h"
 
 static bool parse_query_line(
     const char *line_start,

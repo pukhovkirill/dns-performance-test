@@ -2,7 +2,6 @@
 #include "dns_iterator.h"
 #include <assert.h>
 #include <stdlib.h>
-#include <stdio.h>
 
 struct qiter_list {
     qiter_entry *entries;

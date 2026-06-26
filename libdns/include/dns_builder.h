@@ -2,6 +2,7 @@
 #ifndef DNS_BUILDER_H
 #define DNS_BUILDER_H
 
+#include <stddef.h>
 #include <stdint.h>
 #include <sys/types.h>
 #include "dns_packet.h"
