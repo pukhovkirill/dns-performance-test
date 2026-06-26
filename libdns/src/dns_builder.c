@@ -72,6 +72,14 @@ ssize_t dns_pkt_to_response(uint8_t *pkt, const size_t pkt_sz)
     return BUILD_OK;
 }
 
+size_t dns_query_packet_size(const char *domain)
+{
+    return DNS_HDR_LEN
+         + dns_qname_encoded_size(domain)
+         + sizeof(uint16_t)      // qtype
+         + sizeof(uint16_t);     // qclass
+}
+
 uint16_t gen_id()
 {
     static int32_t counter = -1;

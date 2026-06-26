@@ -71,6 +71,7 @@ typedef enum {
     DNS_RCODE_REFUSED         = 5
 } dns_rcode_t;
 
+
 /**
  * @brief Sets the packet type flag (Query vs Response) in the header.
  *
@@ -257,12 +258,40 @@ typedef struct {
 } dns_question_t;
 
 /**
+ * @brief Max length of domain name in bytes.
+ */
+enum { DNS_QNAME_MAX_LEN = 256 };
+
+/**
+ * @brief Canonical DNS query type definition table.
+ *
+ * This macro acts as a single source of truth for all supported DNS
+ * query record types. Each entry contains:
+ *
+ *   1. Text representation used in input files.
+ *   2. Enum constant identifier.
+ *   3. Numeric protocol value defined by RFC.
+ *
+ * The table is reused through X-Macro expansion to automatically
+ * generate related structures such as enum declarations and
+ * string-to-type lookup tables, avoiding duplicated definitions
+ * across translation units.
+ */
+#define DNS_QTYPE_LIST(X) \
+    X("A",    DNS_QTYPE_A,    1)  \
+    X("MX",   DNS_QTYPE_MX,   15) \
+    X("AAAA", DNS_QTYPE_AAAA, 28)
+
+/**
  * @brief Supported DNS resource record types.
+ *
+ * Enum values are automatically generated from DNS_QTYPE_LIST
+ * to guarantee consistency with all related lookup tables.
  */
 typedef enum {
-    DNS_QTYPE_A    = 1,
-    DNS_QTYPE_MX   = 15,
-    DNS_QTYPE_AAAA = 28,
+#define X_GEN_ENUM(name_str, enum_val, num) enum_val = num,
+    DNS_QTYPE_LIST(X_GEN_ENUM)
+#undef X_GEN_ENUM
     DNS_QTYPE_NOT_IMPLEMENTED
 } dns_qtype_t;
 

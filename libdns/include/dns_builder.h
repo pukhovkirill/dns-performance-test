@@ -60,6 +60,17 @@ ssize_t dns_pkt_to_response(
 );
 
 /**
+ * @brief Calculates the total size of a DNS query packet for a given domain.
+ *
+ * This includes the fixed DNS header, the wire-encoded domain name (QNAME),
+ * and the fixed-size fields for query type (QTYPE) and class (QCLASS).
+ *
+ * @param[in] domain Pointer to a null-terminated string containing the domain name.
+ * @return The total expected size of the DNS query packet in bytes.
+ */
+size_t dns_query_packet_size(const char *domain);
+
+/**
  * @brief Converts a numeric return code or byte size into a builder_status_t.
  *
  * Evaluates the return code to determine the build status. Any positive value
