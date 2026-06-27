@@ -212,6 +212,19 @@ make test
 
 This builds and executes tests for all modules, including libdns.
 
+## Code coverage
+
+The `coverage` target rebuilds libdns with gcov instrumentation, runs the test suite, and generates an HTML report via `lcov` and `genhtml`. Requires `lcov` and a GCC toolchain with gcov support.
+
+From the project root:
+
+```bash
+make libdns_coverage   # libdns only
+make coverage          # all modules
+```
+
+The report is written to `../build/libdns/coverage_reports/html/index.html` (open this file in a browser). The intermediate `coverage.info` file is stored alongside it in `../build/libdns/coverage_reports/`.
+
 ## Limitations
 
 - Only query packets are built; response parsing is out of scope.
